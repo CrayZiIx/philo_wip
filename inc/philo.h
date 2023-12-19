@@ -6,7 +6,7 @@
 /*   By: jolecomt <jolecomt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 15:35:19 by jolecomt          #+#    #+#             */
-/*   Updated: 2023/12/16 03:48:38 by jolecomt         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:26:36 by jolecomt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,32 +38,27 @@ typedef enum t_state
 
 typedef struct s_forks
 {
-	t_bool taken;
-	struct timeval entry;
-	struct timeval exit;
+	t_bool taken; // SET BY DEFAULT AS FALSE, IF A PHILO DIE SET AT TRUE 
 	pthread_mutex_t	mutex;
 }				t_forks;
 
 typedef struct s_datas
 {
-	int	nb_of_philos;
-	int	tmd;
-	int	tme;
-	int	tms;
+	int	nb_of_philos; // 1 or supp 
+	long int	tmd; // can be neg in mls
+	long int	tme; // can be neg in mls
+	long int	tms; // can be neg in mls
+	t_bool	is_running; // SET BY DEFAULT AS TRUE, IF A PHILO DIE SET AT FALSE 
+	pthread_mutex_t		mutex_global;
 }				t_datas;
 
 typedef struct s_philo
 {
-	int	index;
-	int	hmmtd; // how many meal to die
-	int philo_tmd;
-	int philo_tme;
-	int philo_tms;
-	t_state state;
-	t_forks fork;
-	pthread_t philo;
-	t_datas *gdata;
-	
+	long int		time_since_last_meal; // time 
+	t_state 		state;
+	t_forks 		fork;
+	t_datas 		*global;
+	pthread_t 		philo;
 }				t_philo;
 
 /*----philo.c----*/

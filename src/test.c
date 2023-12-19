@@ -33,7 +33,7 @@ void	*routine(void *arg)
 	md->id++;
 	pthread_mutex_unlock(&(*md).mutex);
 	md->data[id] = id % 2;
-	while (md->data[id] < 10)
+	while (md->data[id] < 20)
 	{
 		pthread_mutex_lock(&(*md).mutex);
 		if ((*md).data[id] % 2 == 0)
