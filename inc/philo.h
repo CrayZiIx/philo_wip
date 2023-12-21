@@ -6,7 +6,7 @@
 /*   By: jolecomt <jolecomt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 15:35:19 by jolecomt          #+#    #+#             */
-/*   Updated: 2023/12/19 17:26:36 by jolecomt         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:05:22 by jolecomt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,32 @@ typedef enum t_state
 	THINK
 }				t_state;
 
-typedef struct s_forks
+typedef struct s_fork
 {
-	t_bool taken; // SET BY DEFAULT AS FALSE, IF A PHILO DIE SET AT TRUE 
-	pthread_mutex_t	mutex;
-}				t_forks;
+	t_bool 			taken; 			// SET BY DEFAULT AS FALSE, IF A PHILO DIE SET AT TRUE 
+	pthread_mutex_t		mutex;
+}				t_fork;
 
 typedef struct s_datas
 {
-	int	nb_of_philos; // 1 or supp 
-	long int	tmd; // can be neg in mls
-	long int	tme; // can be neg in mls
-	long int	tms; // can be neg in mls
-	t_bool	is_running; // SET BY DEFAULT AS TRUE, IF A PHILO DIE SET AT FALSE 
+	int			nb_of_philos;		// 1 or supp 
+	int			meal_before_death;	// the number of meal before philo die
+	struct timeval		time_at_start;		// get the time at the start
+	long int		tmd;			// can be neg in mls
+	long int		tme;			// can be neg in mls
+	long int		tms;			// can be neg in mls
+	t_bool			is_running;		// SET BY DEFAULT AS TRUE, IF A PHILO DIE SET AT FALSE 
 	pthread_mutex_t		mutex_global;
 }				t_datas;
 
 typedef struct s_philo
 {
-	long int		time_since_last_meal; // time 
-	t_state 		state;
-	t_forks 		fork;
-	t_datas 		*global;
-	pthread_t 		philo;
+	long int		time_since_last_meal;	// time
+	int			index; 			// index of philo
+	// t_state 		state;			// EAT or SLEEP or THINK
+	t_fork			*forks;			// list of all the fork 
+	t_datas 		*global;		// struct of global var needed
+	pthread_t 		philo;			// thread of the philo
 }				t_philo;
 
 /*----philo.c----*/
