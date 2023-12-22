@@ -6,7 +6,7 @@
 /*   By: jolecomt <jolecomt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 15:35:19 by jolecomt          #+#    #+#             */
-/*   Updated: 2023/12/21 20:05:22 by jolecomt         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:06:22 by jolecomt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,35 +36,51 @@ typedef enum t_state
 	THINK
 }				t_state;
 
-typedef struct s_fork
+typedef struct 			s_fork
 {
-	t_bool 			taken; 			// SET BY DEFAULT AS FALSE, IF A PHILO DIE SET AT TRUE 
+	int			data;
 	pthread_mutex_t		mutex;
 }				t_fork;
+
+typedef struct 			s_timer
+{
+	long int		timer;
+	pthread_mutex_t		mutex;
+}				t_timer;
 
 typedef struct s_datas
 {
 	int			nb_of_philos;		// 1 or supp 
-	int			meal_before_death;	// the number of meal before philo die
-	struct timeval		time_at_start;		// get the time at the start
+	int			meal_before_death;	// the number of meal before philo die	
+	// long int		time_at_start;		// get the time at the start
 	long int		tmd;			// can be neg in mls
 	long int		tme;			// can be neg in mls
 	long int		tms;			// can be neg in mls
+	long int		time_at_start;		// time at stat
 	t_bool			is_running;		// SET BY DEFAULT AS TRUE, IF A PHILO DIE SET AT FALSE 
 	pthread_mutex_t		mutex_global;
 }				t_datas;
 
+typedef struct	s_death
+{
+	pthread_t	death;
+}		t_death;
+
 typedef struct s_philo
 {
-	long int		time_since_last_meal;	// time
-	int			index; 			// index of philo
-	// t_state 		state;			// EAT or SLEEP or THINK
-	t_fork			*forks;			// list of all the fork 
+	t_fork			meal;
+	t_timer			timer_last_meal;	// time
+	int			left; 			// index of left fork
+	int			right; 			// index of right fork
+	t_fork			*forks;			// the fork of the philo
 	t_datas 		*global;		// struct of global var needed
 	pthread_t 		philo;			// thread of the philo
+	pthread_t 		death;			// thread of the death
 }				t_philo;
 
 /*----philo.c----*/
 
+
+// -fsanitize=thread
 
 #endif
